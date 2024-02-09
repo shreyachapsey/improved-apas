@@ -1,0 +1,24 @@
+{
+  "name": "APAS",
+  "version": "0.1",
+  "manifest_version": 3,
+  "description": "Improved Grad Planner",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://apas.umn.edu/*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
