@@ -5,18 +5,48 @@ function getGrades() {
     if (url.includes("/selfservice/audit/read.html")) {
       console.log("YOU ARE ON REPORT");
 
-      let total_credits = parseFloat(document.getElementsByClassName("hours number")[0].innerText) + parseFloat(document.getElementsByClassName("hours number")[1].innerText);
+      let earned_credits = parseFloat(document.getElementsByClassName("hours number")[0].innerText);
+      let current_credits = parseFloat(document.getElementsByClassName("hours number")[1].innerText);
       let remaining_credits = parseFloat(document.getElementsByClassName("hours number")[2].innerText);
-      let progress = 100 * total_credits / (total_credits + remaining_credits);
-      let semesters_left = Math.ceil(remaining_credits / 20);
+      let credit_list = [earned_credits, current_credits, remaining_credits];
+
       let table = document.getElementsByClassName("completedCourses")[0].tBodies[0];
+      let course_history = [];
+      var i;
+      for (i = 0; i < table.rows.length; i++) {
+        course_row = [];
+        var j;
+        for (j = 0; j < table.rows[i].cells.length - 1; j++) {
 
-      const tableHTML = table.outerHTML;
+          course_row.push(table.rows[i].cells[j].innerText)
+        }
+        innerTable = table.rows[i].cells[j].querySelector("table").tBodies[0];
+        last_cell = [];
+        for (let k = 0; k < innerTable.rows.length; k++) {
+          for (let l = 0; l < innerTable.rows[k].cells.length; l++) {
+            last_cell.push(innerTable.rows[k].cells[l].innerText)
+          }
 
-      chrome.storage.local.set({"total_credits": total_credits}, function() {
-        console.log(`Storage now contains ${total_credits}.`);
-    });
-      chrome.runtime.sendMessage({ action: 'openNewTab', tableHTML });
+        }
+        course_row.push(last_cell);
+
+
+        course_history.push(course_row);
+      }
+
+
+
+
+      console.log(course_history);
+      chrome.storage.local.set({ "course_history": course_history }, function () {
+        console.log(`Storage now contains ${course_history}.`);
+      });
+
+
+      chrome.storage.local.set({ "credit_list": credit_list }, function () {
+        console.log(`Storage now contains ${credit_list}.`);
+      });
+      chrome.runtime.sendMessage({ action: 'openNewTab' });
       console.log("message sent to bg");
 
 
@@ -24,8 +54,7 @@ function getGrades() {
       //   let credit = table.rows[i].cells[2].innerText;
       //   total_credits += parseFloat(credit);
       // }
-      console.log(total_credits);
-      console.log(progress + "% Done");
+
 
     }
   }

@@ -4,13 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Graduation Planner</title>
-  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <div id="app">
     <h1>Graduation Planner</h1>
-    <h2>Total Credits: </h2> 
-    <h3 id="total_credits"></h3>
+    <h2>Total Credits:     <h3 id="total_credits">NULL</h3>
+    </h2> 
+    <label for="degree_progress">Degree progress:</label>
+<progress id="degree_progress" value="104" max="120"></progress> <span id="degree_percentage"></span>
+    <table id="course_history"><thead>
+      <th>Term</th>
+      <th>Course</th>
+      <th>Credit</th>
+      <th><t></t></th>
+      <th>Name</th>
+    </thead>
+    <tbody>
+    </tbody>
+    </table>
   </div>
   <script src="popup.js"></script>
 </body>
